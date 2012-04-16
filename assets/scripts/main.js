@@ -69,6 +69,11 @@ function centerTheBoard() {
     
     var x = 1, y = 1;
     
+    /**
+     * this super-hyper-high-performance loop is developed
+     * and powered by @SWW13
+     * may the source be with him.
+     */
     while ((x*y) < numBoxes) {
         var solRes = x / y;
         
