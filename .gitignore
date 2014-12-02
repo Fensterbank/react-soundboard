@@ -1,2 +1,4 @@
 assets/settings/general.json
 assets/settings/sounds.json
+assets/sounds/*
+!assets/sounds/.gitkeep
