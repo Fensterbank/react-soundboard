@@ -1,8 +1,14 @@
 /* vim: set tw=4 sw=4: */
+var state = {
+    Sounds: [],
+    CloseTimeout: null
+};
 
 document.addEventListener('DOMContentLoaded', function(){
     loadAndApplySettings();
     loadAudioButtons();
+
+    handleMenuButtonClicks();
 });
 
 window.addEventListener("resize", function() {
@@ -21,18 +27,27 @@ function loadAndApplySettings() {
 }
 
 function loadAudioButtons() {
-    jQuery.getJSON("assets/settings/sounds.json", function(sounds) {
-        var source = jQuery("#tpl-buttons").html();
-        var template = Handlebars.compile(source);
-        var context = {"sounds": sounds}
-        var soundboard = template(context);
+    state.Sounds = JSON.parse(window.localStorage.getItem('sounds'));
+    if (state.Sounds == null)
+        document.getElementById('download-configuration').style.display = 'none';
+    else
+        document.getElementById('download-configuration').style.display = 'block';
 
-        jQuery("#soundboard").html(soundboard);
+    var source = jQuery("#tpl-buttons").html();
+    var template = Handlebars.compile(source);
+    var context = {"sounds": state.Sounds};
+    var soundboard = template(context);
 
-        handleAudioButtonClicks();
-        centerTheBoard();
-        openTheCurtain();
-    });
+    jQuery("#soundboard").html(soundboard);
+
+    handleAudioButtonClicks();
+    centerTheBoard();
+    openTheCurtain();
+}
+
+function handleMenuButtonClicks() {
+    jQuery('#download-configuration').on('click', downloadConfiguration);
+    jQuery('#upload-configuration').on('click', uploadConfiguration);
 }
 
 function handleAudioButtonClicks() {
@@ -102,3 +117,75 @@ function openTheCurtain() {
         jQuery("#soundboard").fadeIn(fadeDuration);
     });
 }
+
+function downloadConfiguration() {
+    var a = document.createElement('a');
+    a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(state.Sounds)));
+    a.setAttribute('download', 'sounds.json');
+
+    // Append link to body for firefox
+    document.body.appendChild(a);
+    a.click();
+
+    // Clean up
+    document.body.removeChild(a);
+}
+
+function uploadConfiguration() {
+    if (state.CloseTimeout != null) {
+        window.clearTimeout(state.CloseTimeout);
+        state.CloseTimeout = null;
+    }
+
+    var d = document.getElementById('upload-configuration-content');
+    d.innerHTML = '';
+
+    var fileUpload = document.createElement('input');
+    fileUpload.setAttribute('type', 'file');
+    fileUpload.addEventListener('change', handleUploadFileSelect, false);
+    d.appendChild(fileUpload);
+    d.style.display = 'block';
+}
+
+function uploadedFileIsValid(fileContent) {
+    try {
+        var sounds = JSON.parse(fileContent);
+        if (Array.isArray(sounds) && sounds.length > 0) {
+            sounds.forEach(function (sound) {
+                if (!sound.hasOwnProperty('title')
+                    || !sound.hasOwnProperty('sound'))
+                return false;
+            });
+            return true;
+        }
+    } catch (e) {}
+    return false;
+}
+
+function handleUploadFileSelect(evt) {
+    var files = evt.target.files; // FileList object
+    var file = files[0];
+
+    if (file != null) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var fileContent = reader.result;
+
+            var d = document.getElementById('upload-configuration-content');
+            if (uploadedFileIsValid(fileContent)) {
+                window.localStorage.setItem('sounds', fileContent);
+                loadAudioButtons();
+                d.innerHTML = '<span class="success">Configuration loaded!</span>';
+            } else {
+                d.innerHTML = '<span class="error">Uploaded file invalid!</span>';
+            }
+            state.CloseTimeout = window.setTimeout(function () {
+                d.innerHTML = '';
+                d.style.display = 'none';
+                state.CloseTimeout = null;
+            }, 5000);
+        };
+        reader.readAsText(file, 'UTF-8');
+    }
+}
+
