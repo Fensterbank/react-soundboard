@@ -7,9 +7,10 @@ Setup
 -----
 
 1. Upload the files
-2. Place sound files (preferably .ogg's) in the /assets/sounds/-directory
+2. Place sound files (preferably .ogg files) in the /assets/sounds/-directory
 3. Modify /assets/settings/sounds.json to contain all your sounds
 4. Modify /assets/settings/general.json to match your favorite colors
+5. You can download, modify and upload sound configuration files (saved in browser storage) without affecting the default server config file
 5. Have fun clicking around
 
 sounds.json
@@ -54,4 +55,4 @@ Feel free to fork, I'd be glad to merge a pull request. ;-)
 Notes
 -------
 
-I am using jQuery, Handlebars and normalize.css. Note that that stuff is not licensed under the DWTFYWTADBUPL.
+I am using Handlebars and normalize.css. Note that that stuff is not licensed under the DWTFYWTADBUPL.

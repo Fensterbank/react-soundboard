@@ -12,7 +12,6 @@ html, body {
 }
 
 #soundboard {
-    display: none;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -96,4 +95,13 @@ span.success {
 
 #menu {
     text-align: right;
+}
+
+.show {
+    transition: opacity 200ms;
+    opacity: 1;
+}
+.hide {
+    transition: opacity 200ms;
+    opacity: 0;
 }

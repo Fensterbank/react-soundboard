@@ -16,58 +16,54 @@ window.addEventListener("resize", function() {
 });
 
 function loadAndApplySettings() {
-    jQuery.getJSON("assets/settings/general.json", function(settings) {  
-        var source = jQuery("#tpl-color-styles").html();
+    getJSON("assets/settings/general.json", function(settings) {
+        var source = document.querySelector("#tpl-color-styles").innerHTML;
         var template = Handlebars.compile(source);
-        var context = {"colors": settings["colors"]}
-        var styleRules = template(context);
-
-        jQuery("head").append(styleRules);
+        var context = {"colors": settings["colors"]};
+        var styleRules = document.createElement('style');
+        styleRules.setAttribute('type', 'text/css');
+        styleRules.innerHTML = template(context);
+        document.head.appendChild(styleRules);
     });
 }
 
 function loadAudioButtons() {
-    state.Sounds = JSON.parse(window.localStorage.getItem('sounds'));
-    if (state.Sounds == null)
-        document.getElementById('download-configuration').style.display = 'none';
-    else
+    function onSoundsLoaded() {
         document.getElementById('download-configuration').style.display = 'block';
+        var source = document.querySelector("#tpl-buttons").innerHTML;
+        var template = Handlebars.compile(source);
+        var context = {"sounds": state.Sounds};
+        var soundboard = template(context);
 
-    var source = jQuery("#tpl-buttons").html();
-    var template = Handlebars.compile(source);
-    var context = {"sounds": state.Sounds};
-    var soundboard = template(context);
+        document.querySelector("#soundboard").innerHTML = soundboard;
 
-    jQuery("#soundboard").html(soundboard);
+        handleAudioButtonClicks();
+        centerTheBoard();
+        openTheCurtain();
+    }
 
-    handleAudioButtonClicks();
-    centerTheBoard();
-    openTheCurtain();
+    state.Sounds = JSON.parse(window.localStorage.getItem('sounds'));
+    if (state.Sounds == null) {
+        // If no client configuration is saved, load it from server config file
+        document.getElementById('download-configuration').style.display = 'none';
+        getJSON("assets/settings/sounds.json", function(sounds) {
+            state.Sounds = sounds;
+            onSoundsLoaded();
+        });
+    }
+    else
+        onSoundsLoaded();
 }
 
 function handleMenuButtonClicks() {
-    jQuery('#download-configuration').on('click', downloadConfiguration);
-    jQuery('#upload-configuration').on('click', uploadConfiguration);
+    document.querySelector('#download-configuration').addEventListener('click', downloadConfiguration);
+    document.querySelector('#upload-configuration').addEventListener('click', uploadConfiguration);
 }
 
 function handleAudioButtonClicks() {
-    jQuery("audio").each(function (i, elem) {
-        elem.addEventListener('playing', function(){
-            jQuery(this).parent().addClass("playing");
-        }, false);
-
-        elem.addEventListener('pause', function(){
-            jQuery(this).parent().removeClass("playing");
-        }, false);
-
-        elem.addEventListener('ended', function(){
-            jQuery(this).parent().removeClass("playing");
-        }, false);
-    });
-
-    jQuery(".button").click(function () {
-        var isPlaying = jQuery(this).hasClass("playing");
-        var audioElement = jQuery(this).find("audio").get(0);
+    function buttonOnClick() {
+        var isPlaying = this.classList.contains("playing");
+        var audioElement = this.querySelector("audio");
 
         if (!isPlaying) {
             audioElement.play();
@@ -75,14 +71,34 @@ function handleAudioButtonClicks() {
             audioElement.pause();
             audioElement.currentTime = 0.0;
         }
+    }
+
+    var audioNodes = document.querySelectorAll('audio');
+    for (var i = 0; i < audioNodes.length; i++) {
+        var elem = audioNodes[i];
+        elem.addEventListener('playing', function(){
+            this.parentElement.classList.add("playing");
+        }, false);
+
+        elem.addEventListener('pause', function(){
+            this.parentElement.classList.remove("playing");
+        }, false);
+
+        elem.addEventListener('ended', function(){
+            this.parentElement.classList.remove("playing");
+        }, false);
+    }
+
+    [].forEach.call(document.querySelectorAll('.button'), function (el) {
+        el.addEventListener('click', buttonOnClick, false);
     });
 }
 
 function centerTheBoard() {
-    var sb = jQuery("#soundboard");
+    var sb = document.querySelector("#soundboard");
 
-    var numBoxes = jQuery(".button").length;
-    var screenRes = jQuery(document).width() / jQuery(document).height();
+    var numBoxes = document.querySelectorAll(".button").length;
+    var screenRes = document.body.clientWidth / document.body.clientHeight;
 
     var x = 1, y = 1;
 
@@ -101,21 +117,25 @@ function centerTheBoard() {
         }
     }
 
-    var boxDimension = jQuery(".button").first().width() + 30;
+    var boxDimension = document.querySelector(".button").offsetWidth + 30;
 
-    sb.width(boxDimension * x);
-    sb.height(boxDimension * y);
+    sb.style.width = (boxDimension * x);
+    sb.style.height = (boxDimension * y);
 
-    sb.css("margin-left", "-" + sb.width()/2 + "px");
-    sb.css("margin-top", "-" + sb.height()/2 + "px");
+    sb.style.marginLeft = ("-" + sb.offsetWidth/2 + "px");
+    sb.style.marginTop = ("-" + sb.offsetHeight/2 + "px");
 }
 
 function openTheCurtain() {
-    var fadeDuration = 200;
-
-    jQuery("#loader").fadeOut(fadeDuration, function() {
-        jQuery("#soundboard").fadeIn(fadeDuration);
-    });
+    // Fade Out and Fade In with CSS transitions
+    var el = document.getElementById('loader');
+    el.classList.remove('show');
+    el.classList.add('hide');
+    window.setTimeout(function () {
+        el = document.getElementById('soundboard');
+        el.classList.remove('hide');
+        el.classList.add('show');
+    }, 200);
 }
 
 function downloadConfiguration() {
@@ -123,7 +143,7 @@ function downloadConfiguration() {
     a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(state.Sounds)));
     a.setAttribute('download', 'sounds.json');
 
-    // Append link to body for firefox
+    // Append link to body to make click event work
     document.body.appendChild(a);
     a.click();
 
@@ -187,5 +207,23 @@ function handleUploadFileSelect(evt) {
         };
         reader.readAsText(file, 'UTF-8');
     }
+}
+
+function getJSON(url, onSuccess, onError) {
+    request = new XMLHttpRequest();
+    request.open('GET', url, true);
+
+    request.onload = function() {
+        if (this.response != null) {
+            var data = JSON.parse(this.response);
+            if (onSuccess) onSuccess(data);
+        }
+    };
+
+    request.onerror = function() {
+        if (onError) onError(this);
+    };
+
+    request.send();
 }
 
