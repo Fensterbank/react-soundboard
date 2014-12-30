@@ -63,21 +63,6 @@ span.success {
     color: #00ae09;
 }
 
-.active {
-     background-color: rgb(65, 65, 65) !important;
-}
-
-.button-add-sound {
-    font-size: 60px;
-    text-align: center;
-    line-height: 118px;
-    border: 2px dashed #999;
-    height: 116px;
-    width: 116px;
-    color: #999;
-    display:none;
-}
-
 .button .tooltip {
     height: 20%;
     font-size: 10px;
