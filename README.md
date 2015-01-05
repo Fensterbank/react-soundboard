@@ -7,9 +7,10 @@ Setup
 -----
 
 1. Upload the files
-2. Place sound files (preferably .ogg's) in the /assets/sounds/-directory
+2. Place sound files (preferably .ogg files) in the /assets/sounds/-directory
 3. Modify /assets/settings/sounds.json to contain all your sounds
 4. Modify /assets/settings/general.json to match your favorite colors
+5. You can download, modify and upload sound configuration files (saved in browser storage) without affecting the default server config file
 5. Have fun clicking around
 
 sounds.json
@@ -21,19 +22,21 @@ That file is basically just a json file containing an array of sounds. It should
 [
     {
         "title": "My awesome sound",
-        "file": "sound.ogg"
+        "file": "sound.ogg",
+        "comment": "My comment"
     },
     {
         "title": "Another sound",
-        "file": "foo.ogg"
+        "file": "foo.ogg",
+        "comment": "another comment"
     }
 ]
 ```
 
-settings.json
+general.json
 -------------
 
-That file is json, too. Use it to change the colors of the soundboard.
+That file is json, too. Use it to change the colors and branding of the soundboard and to enable/disable buttons.
 
 ```json
 {
@@ -42,6 +45,16 @@ That file is json, too. Use it to change the colors of the soundboard.
         "background": "#615A55",
         "button": "#DEDEDE",
         "playing": "#EA2C46"
+    },
+    "branding":
+    {
+        "logo": "",
+        "title": ""
+    },
+    "menu":
+    {
+        "upload-sound-config": true,
+        "download-sound-config": true
     }
 }
 ```
@@ -54,4 +67,4 @@ Feel free to fork, I'd be glad to merge a pull request. ;-)
 Notes
 -------
 
-I am using jQuery, Handlebars and normalize.css. Note that that stuff is not licensed under the DWTFYWTADBUPL.
+I am using Handlebars and normalize.css. Note that that stuff is not licensed under the DWTFYWTADBUPL.

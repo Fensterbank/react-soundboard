@@ -5,19 +5,18 @@
         <title>Soundboard</title>
         
         <link rel="stylesheet" type="text/css" href="assets/styles/normalize.css">
+        <link rel="stylesheet" type="text/css" href="assets/styles/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="assets/styles/main.css">
         
         <script type="text/javascript" src="assets/scripts/handlebars-1.0.0.beta.6.js"></script>
-        <script type="text/javascript" src="assets/scripts/jquery-1.7.2.min.js"></script>
         <script type="text/javascript" src="assets/scripts/main.js"></script>
 
         <script id="tpl-color-styles" type="text/x-handlebars-template">
-            <style type="text/css">
                 html, body { background-color: {{colors.background}}; }
                 .button { background-color: {{colors.button}}; }
+                .button-small { background-color: {{colors.button}}; }
                 .button .state { background-color: {{colors.playing}}; }
                 .button.playing .state { display: block }
-            </style>
         </script>
         
         <script id="tpl-buttons" type="text/x-handlebars-template">
@@ -28,9 +27,9 @@
                     </section>
                     
                     <section class="state"></section>
-                    
+                    <section class="comment">{{this.comment}}</section>
                     <audio src="assets/sounds/{{this.file}}" autobuffer="true"></audio>  
-                </section>    
+                </section>
             {{/each}}
         </script>
     </head>
@@ -38,7 +37,15 @@
         <section id="loader">
             <img src="assets/images/loader.gif" alt="Loading...">
         </section>
-        
-        <section id="soundboard"></section>
+
+        <section id="menu">
+            <div id="upload-configuration" class="button-small"><i class="fa fa-lg fa-fw fa-upload"></i> Upload configuration from file</div>
+            <div id="upload-configuration-content" class="upload-content"></div>
+            <div id="download-configuration" class="button-small"><i class="fa fa-lg fa-fw fa-download"></i> Download configuration</div>
+        </section>
+
+        <section id="branding"></section>
+
+        <section id="soundboard" class="hide"></section>
     </body>
 </html>
