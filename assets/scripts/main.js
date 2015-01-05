@@ -1,6 +1,7 @@
 /* vim: set tw=4 sw=4: */
 var sb;
 var Soundboard = function () {
+    var btnDownloadConfiguration, btnUploadConfiguration, inputUploadConfiguration;
     var state = {
         Sounds: [],
         CloseTimeout: null
@@ -15,12 +16,24 @@ var Soundboard = function () {
             styleRules.setAttribute("type", "text/css");
             styleRules.innerHTML = template(context);
             document.head.appendChild(styleRules);
+
+            var menu = document.getElementById("menu");
+            if (!settings["menu"]["upload-sound-config"]) {
+                menu.removeChild(btnUploadConfiguration);
+                menu.removeChild(inputUploadConfiguration);
+            }
+
+            if (!settings["menu"]["download-sound-config"]) {
+                menu.removeChild(btnDownloadConfiguration);
+            }
         });
     }
 
     function loadAudioButtons() {
         function onSoundsLoaded() {
-            document.getElementById("download-configuration").style.display = "block";
+            if (btnDownloadConfiguration) {
+                btnDownloadConfiguration.style.display = "block";
+            }
 
             var template = Handlebars.compile(document.querySelector("#tpl-buttons").innerHTML);
             document.querySelector("#soundboard").innerHTML = template({"sounds": state.Sounds});
@@ -45,8 +58,13 @@ var Soundboard = function () {
     }
 
     function handleMenuButtonClicks() {
-        document.querySelector("#download-configuration").addEventListener("click", downloadConfiguration);
-        document.querySelector("#upload-configuration").addEventListener("click", uploadConfiguration);
+        if (btnDownloadConfiguration) {
+            btnDownloadConfiguration.addEventListener("click", downloadConfiguration);
+        }
+
+        if (btnUploadConfiguration) {
+            btnUploadConfiguration.addEventListener("click", uploadConfiguration);
+        }
     }
 
     function handleAudioButtonClicks() {
@@ -146,14 +164,15 @@ var Soundboard = function () {
             state.CloseTimeout = null;
         }
 
-        var d = document.getElementById("upload-configuration-content");
-        d.innerHTML = "";
+        if (inputUploadConfiguration) {
+            inputUploadConfiguration.innerHTML = "";
 
-        var fileUpload = document.createElement("input");
-        fileUpload.setAttribute("type", "file");
-        fileUpload.addEventListener("change", handleUploadFileSelect, false);
-        d.appendChild(fileUpload);
-        d.style.display = "block";
+            var fileUpload = document.createElement("input");
+            fileUpload.setAttribute("type", "file");
+            fileUpload.addEventListener("change", handleUploadFileSelect, false);
+            inputUploadConfiguration.appendChild(fileUpload);
+            inputUploadConfiguration.style.display = "block";
+        }
     }
 
     function uploadedFileIsValid(fileContent) {
@@ -179,19 +198,20 @@ var Soundboard = function () {
             reader.onload = function(e) {
                 var fileContent = reader.result;
 
-                var d = document.getElementById("upload-configuration-content");
-                if (uploadedFileIsValid(fileContent)) {
-                    window.localStorage.setItem("sounds", fileContent);
-                    loadAudioButtons();
-                    d.innerHTML = '<span class="success">Configuration loaded!</span>';
-                } else {
-                    d.innerHTML = '<span class="error">Uploaded file invalid!</span>';
+                if (inputUploadConfiguration) {
+                    if (uploadedFileIsValid(fileContent)) {
+                        window.localStorage.setItem("sounds", fileContent);
+                        loadAudioButtons();
+                        inputUploadConfiguration.innerHTML = '<span class="success">Configuration loaded!</span>';
+                    } else {
+                        inputUploadConfiguration.innerHTML = '<span class="error">Uploaded file invalid!</span>';
+                    }
+                    state.CloseTimeout = window.setTimeout(function () {
+                        inputUploadConfiguration.innerHTML = "";
+                        inputUploadConfiguration.style.display = "none";
+                        state.CloseTimeout = null;
+                    }, 5000);
                 }
-                state.CloseTimeout = window.setTimeout(function () {
-                    d.innerHTML = "";
-                    d.style.display = "none";
-                    state.CloseTimeout = null;
-                }, 5000);
             };
             reader.readAsText(file, "UTF-8");
         }
@@ -217,6 +237,10 @@ var Soundboard = function () {
 
 
     // Initialization
+    btnUploadConfiguration = document.getElementById("upload-configuration");
+    inputUploadConfiguration = document.getElementById("upload-configuration-content");
+    btnDownloadConfiguration = document.getElementById("download-configuration");
+
     loadAndApplySettings();
     loadAudioButtons();
 

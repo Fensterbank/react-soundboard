@@ -4,5 +4,10 @@
         "background": "#615A55",
         "button": "#DEDEDE",
         "playing": "#EA2C46"
+    },
+    "menu":
+    {
+        "upload-sound-config": true,
+        "download-sound-config": true
     }
 }
