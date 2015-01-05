@@ -5,6 +5,11 @@
         "button": "#DEDEDE",
         "playing": "#EA2C46"
     },
+    "branding":
+    {
+        "logo": "",
+        "title": ""
+    },
     "menu":
     {
         "upload-sound-config": true,

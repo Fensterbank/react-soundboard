@@ -26,6 +26,24 @@ var Soundboard = function () {
             if (!settings["menu"]["download-sound-config"]) {
                 menu.removeChild(btnDownloadConfiguration);
             }
+
+            var branding = document.getElementById("branding");
+            if (settings["branding"]["logo"] == "" && settings["branding"]["title"] == "") {
+                document.body.removeChild(branding);
+            } else {
+                if (settings["branding"]["logo"] != "") {
+                    var img = document.createElement("img");
+                    img.className = "logo";
+                    img.setAttribute("src", "assets/images/" + settings["branding"]["logo"]);
+                    branding.appendChild(img);
+                }
+
+                if (settings["branding"]["title"] != "") {
+                    var h1 = document.createElement("h1");
+                    h1.innerHTML = settings["branding"]["title"];
+                    branding.appendChild(h1);
+                }
+            }
         });
     }
 

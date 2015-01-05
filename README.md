@@ -22,11 +22,13 @@ That file is basically just a json file containing an array of sounds. It should
 [
     {
         "title": "My awesome sound",
-        "file": "sound.ogg"
+        "file": "sound.ogg",
+        "comment": "My comment"
     },
     {
         "title": "Another sound",
-        "file": "foo.ogg"
+        "file": "foo.ogg",
+        "comment": "another comment"
     }
 ]
 ```
@@ -34,7 +36,7 @@ That file is basically just a json file containing an array of sounds. It should
 general.json
 -------------
 
-That file is json, too. Use it to change the colors of the soundboard and to enable/disable buttons.
+That file is json, too. Use it to change the colors and branding of the soundboard and to enable/disable buttons.
 
 ```json
 {
@@ -43,6 +45,11 @@ That file is json, too. Use it to change the colors of the soundboard and to ena
         "background": "#615A55",
         "button": "#DEDEDE",
         "playing": "#EA2C46"
+    },
+    "branding":
+    {
+        "logo": "",
+        "title": ""
     },
     "menu":
     {
