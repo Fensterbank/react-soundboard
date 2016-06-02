@@ -1,70 +1,20 @@
 HTML5 Soundboard
 ================
 
-A damn small soundboard based on pure HTML5 (and some JavaScript)
+A damn small soundboard based on some React code.
+
+Note: I've recently rewritten the app in React for a quick demo and I've
+dropped some features I do no longer need. Check the `old` branch as well.
 
 Setup
 -----
 
 1. Upload the files
-2. Place sound files (preferably .ogg files) in the /assets/sounds/-directory
-3. Modify /assets/settings/sounds.json to contain all your sounds
-4. Modify /assets/settings/general.json to match your favorite colors
-5. You can download, modify and upload sound configuration files (saved in browser storage) without affecting the default server config file
-5. Have fun clicking around
-
-sounds.json
------------
-
-That file is basically just a json file containing an array of sounds. It should look like that:
-
-```json
-[
-    {
-        "title": "My awesome sound",
-        "file": "sound.ogg",
-        "comment": "My comment"
-    },
-    {
-        "title": "Another sound",
-        "file": "foo.ogg",
-        "comment": "another comment"
-    }
-]
-```
-
-general.json
--------------
-
-That file is json, too. Use it to change the colors and branding of the soundboard and to enable/disable buttons.
-
-```json
-{
-    "colors":
-    {
-        "background": "#615A55",
-        "button": "#DEDEDE",
-        "playing": "#EA2C46"
-    },
-    "branding":
-    {
-        "logo": "",
-        "title": ""
-    },
-    "menu":
-    {
-        "upload-sound-config": true,
-        "download-sound-config": true
-    }
-}
-```
+2. Place sound files (preferably .ogg files) in the `/assets/sounds/`-directory
+3. Copy `assets/config.json.example` to `assets/config.json` and adjust to your needs.
+4. Have fun clicking around
 
 Bug? Feature idea?
 ------------------
 
 Feel free to fork, I'd be glad to merge a pull request. ;-)
-
-Notes
--------
-
-I am using Handlebars and normalize.css. Note that that stuff is not licensed under the DWTFYWTADBUPL.
