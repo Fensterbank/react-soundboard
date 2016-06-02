@@ -11,7 +11,7 @@ export const StandaloneButton = React.createClass({
   },
 
   render: function() {
-    let src = `/assets/sounds/${this.props.file}`;
+    let src = `assets/sounds/${this.props.file}`;
 
     return (
       <div

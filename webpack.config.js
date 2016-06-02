@@ -31,4 +31,4 @@ module.exports = {
   sassLoader: {
     includePaths: [path.resolve(__dirname, "./css")]
   }
-};
+}

@@ -3,4 +3,6 @@ assets/config.json
 assets/main.css*
 assets/main.js*
 assets/sounds/
+dist/
 !assets/sounds/.gitkeep
+!dist/.gitkeep
