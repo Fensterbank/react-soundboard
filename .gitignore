@@ -1,6 +1,6 @@
 node_modules/
 assets/config.json
-assets/main.css
-assets/main.js
+assets/main.css*
+assets/main.js*
 assets/sounds/
 !assets/sounds/.gitkeep

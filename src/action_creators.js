@@ -1,3 +1,5 @@
+import fetch from "isomorphic-fetch";
+
 export function loadConfig() {
   return (dispatch) => {
     fetch("/assets/config.json").then((response) => {
