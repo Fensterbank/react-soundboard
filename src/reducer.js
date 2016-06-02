@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
   fetching: true,
-  config: {}
+  config: {},
+  volume: 50
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -9,6 +10,10 @@ export default function(state = INITIAL_STATE, action) {
       return Object.assign({}, state, {
         fetching: false,
         config: action.config
+      });
+    case "CHANGED_VOLUME":
+      return Object.assign({}, state, {
+        volume: action.volume
       });
   }
   return state;

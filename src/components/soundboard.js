@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 
 import * as actionCreators from "../action_creators";
 import { Button } from "./button";
+import { Volumeslider } from "./volumeslider";
 
 require("../assets/css/main.scss");
 
@@ -34,32 +35,35 @@ export const StandaloneSoundboard = React.createClass({
 
   getSoundboard: function() {
     return (
-      <section
-        id="soundboard"
-        style={this.getSoundboardStyles()}
-      >
-        {this.props.config.sounds.map((sound) => {
-          return (<Button
-            file={sound.file}
-            key={sound.file}
-            title={sound.title}
-            button_color={this.props.config.colors.button}
-            playing_color={this.props.config.colors.playing}
-          />);
-        })}
-      </section>
+      <div>
+        <Volumeslider />
+        <section
+          id="soundboard"
+          style={this.getSoundboardStyles()}
+        >
+          {this.props.config.sounds.map((sound) => {
+            return (<Button
+              file={sound.file}
+              key={sound.file}
+              title={sound.title}
+              button_color={this.props.config.colors.button}
+              playing_color={this.props.config.colors.playing}
+            />);
+          })}
+        </section>
+      </div>
     );
   },
 
   getSoundboardStyles: function() {
-    let screenWidth = document.querySelector("body").clientWidth,
+    let screenRes = document.querySelector("html").clientWidth / document.querySelector("html").clientHeight,
       x = 1,
       y = 1;
 
     while ((x * y) < this.props.config.sounds.length) {
       var solRes = x / y;
 
-      if (solRes < screenWidth) {
+      if (solRes < screenRes) {
         x++;
       } else {
         y++;

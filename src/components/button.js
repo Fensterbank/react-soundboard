@@ -1,6 +1,9 @@
 import React from "react";
+import {connect} from "react-redux";
 
-export const Button = React.createClass({
+import * as actionCreators from "../action_creators";
+
+export const StandaloneButton = React.createClass({
   getInitialState: function() {
     return {
       playing: false
@@ -38,6 +41,7 @@ export const Button = React.createClass({
       this._audioTag.pause();
     } else {
       this._audioTag.currentTime = 0.0;
+      this._audioTag.volume = this.props.volume / 100;
       this._audioTag.play();
     }
   },
@@ -54,3 +58,10 @@ export const Button = React.createClass({
     };
   }
 });
+
+export const Button = connect(
+  (state) => {
+    return {volume: state.volume};
+  },
+  actionCreators
+)(StandaloneButton);
