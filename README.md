@@ -9,12 +9,12 @@ dropped some features I do no longer need. Check the `old` branch as well.
 Setup
 -----
 
-1. Upload the files
-2. Place sound files (preferably .ogg files) in the `/assets/sounds/`-directory
+1. Upload the files.
+2. Place sound files (preferably .ogg files) in the `assets/sounds/`-directory.
 3. Copy `assets/config.json.example` to `assets/config.json` and adjust to your needs.
-4. Have fun clicking around
+4. Serve `assets/` and have fun clicking around.
 
 Bug? Feature idea?
 ------------------
 
-Feel free to fork, I'd be glad to merge a pull request. ;-)
+Feel free to fork, I'd be glad to merge a pull request. ;)

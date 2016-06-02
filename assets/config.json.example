@@ -1,0 +1,18 @@
+{
+  "colors": {
+    "background": "#615a55",
+    "button": "#dedede",
+    "playing": "#ea2c46",
+    "text": "#000000"
+  },
+  "sounds": [
+    {
+      "title": "Rimshot",
+      "file": "rimshot.ogg"
+    },
+    {
+      "title": "Laughter",
+      "file": "laughter.ogg"
+    }
+  ]
+}
