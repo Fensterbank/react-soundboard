@@ -1,16 +1,18 @@
-import React from "react";
-import {connect} from "react-redux";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
 import * as actionCreators from "../action_creators";
 
-export const StandaloneButton = React.createClass({
-  getInitialState: function() {
-    return {
+export class StandaloneButton extends Component {
+  constructor(props) {
+    super(props);
+    
+    this.state = {
       playing: false
-    };
-  },
+    }
+  }
 
-  render: function() {
+  render() {
     let src = `assets/sounds/${this.props.file}`;
 
     return (
@@ -34,9 +36,9 @@ export const StandaloneButton = React.createClass({
         ></audio>
       </div>
     );
-  },
+  }
 
-  buttonClick: function() {
+  buttonClick = () => {
     if (this.state.playing) {
       this._audioTag.pause();
     } else {
@@ -44,20 +46,20 @@ export const StandaloneButton = React.createClass({
       this._audioTag.volume = this.props.volume / 100;
       this._audioTag.play();
     }
-  },
+  }
 
-  getButtonStyles: function() {
+  getButtonStyles = () => {
     return {
       "backgroundColor": this.props.button_color
     };
-  },
+  }
 
-  getStateStyles: function() {
+  getStateStyles = () => {
     return {
       "backgroundColor": this.state.playing ? this.props.playing_color : ""
     };
   }
-});
+}
 
 export const Button = connect(
   (state) => {

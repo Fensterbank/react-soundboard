@@ -31,8 +31,8 @@
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "jake": "^8.0.12",
-    "node-sass": "^3.7.0",
-    "sass-loader": "^3.2.0",
+    "node-sass": "^4.7.2",
+    "sass-loader": "^4.1.1",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.12.1"
@@ -41,8 +41,8 @@
     "es6-promise": "^3.2.1",
     "isomorphic-fetch": "^2.2.1",
     "normalize.css": "^4.1.1",
-    "react": "^15.0.1",
-    "react-dom": "^15.0.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "react-redux": "^4.4.5",
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0"
