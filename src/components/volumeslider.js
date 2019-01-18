@@ -1,18 +1,22 @@
-import React from "react";
-import {connect} from "react-redux";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
 import * as actionCreators from "../action_creators";
 
-export const StandaloneVolumeslider = React.createClass({
-  componentDidMount: function() {
+export class StandaloneVolumeslider extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      volume: this.props.volume
+    };
+  }
+
+  componentDidMount() {
     this.props.loadVolume();
-  },
+  }
 
-  getInitialState: function() {
-    return {volume: this.props.volume};
-  },
-
-  render: function() {
+  render() {
     return (
       <div id="volumeslider">
         <input
@@ -25,19 +29,19 @@ export const StandaloneVolumeslider = React.createClass({
         />
       </div>
     );
-  },
+  }
 
-  sliderChange: function(event) {
+  sliderChange = (event) => {
     let volume = event.target.value;
 
     this.setState({volume: volume});
     this.props.setVolume(volume);
-  },
+  }
 
-  componentWillReceiveProps: function(nextProps) {
+  componentWillReceiveProps = (nextProps) => {
     this.setState({volume: nextProps.volume});
   }
-});
+}
 
 export const Volumeslider = connect(
   (state) => {

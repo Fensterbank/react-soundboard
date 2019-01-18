@@ -1,5 +1,5 @@
-import React from "react";
-import {connect} from "react-redux";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
 import * as actionCreators from "../action_creators";
 import { Button } from "./button";
@@ -9,12 +9,12 @@ require("../assets/css/main.scss");
 
 const BUTTON_SIZE = 120;
 
-export const StandaloneSoundboard = React.createClass({
-  componentDidMount: function() {
+export class StandaloneSoundboard extends Component {
+  componentDidMount() {
     this.props.loadConfig();
-  },
+  }
 
-  render: function() {
+  render() {
     let content;
     if (this.props.fetching) {
       content = this.getLoadingMessage();
@@ -23,17 +23,17 @@ export const StandaloneSoundboard = React.createClass({
     }
 
     return content;
-  },
+  }
 
-  getLoadingMessage: function() {
+  getLoadingMessage = () => {
     return (
       <div className="fullscreenmessage">
         <h1>Loading...</h1>
       </div>
     );
-  },
+  }
 
-  getSoundboard: function() {
+  getSoundboard = () => {
     return (
       <div>
         <Volumeslider />
@@ -53,9 +53,9 @@ export const StandaloneSoundboard = React.createClass({
         </section>
       </div>
     );
-  },
+  }
 
-  getSoundboardStyles: function() {
+  getSoundboardStyles = () => {
     let screenRes = document.querySelector("html").clientWidth / document.querySelector("html").clientHeight,
       x = 1,
       y = 1;
@@ -80,7 +80,7 @@ export const StandaloneSoundboard = React.createClass({
       "marginTop": "-" + boardHeight / 2 + "px"
     };
   }
-});
+}
 
 export const Soundboard = connect(
   state => state,
