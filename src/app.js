@@ -24,6 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
     <Provider store={store}>
       <Soundboard />
     </Provider>,
-    document.getElementById("app")
+    document.getElementById("root")
   );
 });

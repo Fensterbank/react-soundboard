@@ -1,4 +1,4 @@
-HTML5 Soundboard
+React Soundboard
 ================
 
 A damn small soundboard based on some React code.
@@ -9,15 +9,15 @@ dropped some features I do no longer need. Check the `old` branch as well.
 Setup
 -----
 
-1. Download the [latest build](https://github.com/denschub/html5soundboard/releases) and upload the `dist` folder content.
-2. Place sound files (preferably .ogg files) in the `assets/sounds/`-directory.
-3. Copy `assets/config.json.example` to `assets/config.json` and adjust to your needs.
+1. `npm install`
+2. Place sound files (preferably .ogg files) in the `public/assets/sounds/`-directory.
+3. Copy `public/assets/config.json.example` to `public/assets/config.json` and adjust to your needs.
+4. `npm start` will launch a development server that listens to `localhost:3000`.
 
 Build
 -----
 
-* `npm start` will launch a development server that listens to `localhost:3000`.
-* `npm run package` generates a new production package inside the `dist` directory.
+* `npm build` generates a new production package inside the `build` directory.
 
 Bug? Feature idea?
 ------------------

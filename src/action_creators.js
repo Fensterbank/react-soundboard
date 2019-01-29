@@ -1,15 +1,14 @@
-import fetch from "isomorphic-fetch";
-
 export function loadConfig() {
   return (dispatch) => {
-    fetch("/assets/config.json").then((response) => {
-      response.json().then((data) => {
+    fetch("/assets/config.json")
+      .then((response) => response.json())
+      .then((data) => {
         dispatch({
           type: "FETCHED_CONFIG",
           config: data
         });
-      });
-    });
+      })
+      .catch((e) => console.log('Error fetching config:', e));
   };
 }
 

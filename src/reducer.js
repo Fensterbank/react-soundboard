@@ -4,17 +4,20 @@ const INITIAL_STATE = {
   volume: 50
 };
 
-export default function(state = INITIAL_STATE, action) {
+export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
-    case "FETCHED_CONFIG":
-      return Object.assign({}, state, {
+    default:
+      return state;
+    case "FETCHED_CONFIG":      
+      return {
+        ...state,
         fetching: false,
         config: action.config
-      });
+      };
     case "CHANGED_VOLUME":
-      return Object.assign({}, state, {
+      return {
+        ...state,
         volume: action.volume
-      });
+      };
   }
-  return state;
 }

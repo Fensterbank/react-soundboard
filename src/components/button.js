@@ -13,7 +13,7 @@ export class StandaloneButton extends Component {
   }
 
   render() {
-    let src = `assets/sounds/${this.props.file}`;
+    let src = `/assets/sounds/${this.props.file}`;
 
     return (
       <div
