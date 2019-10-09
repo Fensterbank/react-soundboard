@@ -2,6 +2,11 @@
 
 body {
   background-color: #615A55;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .fullscreenmessage {
@@ -16,7 +21,7 @@ body {
   width: 70%;
 }
 
-#volumeslider {
+.volumeslider {
   bottom: 25px;
   left: 50%;
   margin-left: -100px;
