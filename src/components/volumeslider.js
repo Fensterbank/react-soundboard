@@ -1,51 +1,30 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 
 import * as actionCreators from "../action_creators";
+import { useMount } from "react-use";
 
-export class StandaloneVolumeslider extends Component {
-  constructor(props) {
-    super(props);
+const StandaloneVolumeslider = ({ volume, setVolume, loadVolume }) => {
+  useMount(() => loadVolume());
+  const sliderChange = (event) => setVolume(event.target.value);
 
-    this.state = {
-      volume: this.props.volume
-    };
-  }
-
-  componentDidMount() {
-    this.props.loadVolume();
-  }
-
-  render() {
-    return (
-      <div id="volumeslider">
-        <input
-          type="range"
-          name="volume"
-          max="100"
-          min="0"
-          onChange={this.sliderChange}
-          value={this.state.volume}
-        />
-      </div>
-    );
-  }
-
-  sliderChange = (event) => {
-    let volume = event.target.value;
-
-    this.setState({volume: volume});
-    this.props.setVolume(volume);
-  }
-
-  componentWillReceiveProps = (nextProps) => {
-    this.setState({volume: nextProps.volume});
-  }
+  return (
+    <div className="volumeslider">
+      <input
+        type="range"
+        name="volume"
+        max="100"
+        min="0"
+        onChange={sliderChange}
+        value={volume}
+      />
+    </div>
+  );
 }
 
 export const Volumeslider = connect(
   (state) => {
-    return {volume: state.volume};
+    return { volume: state.volume };
   },
   actionCreators
 )(StandaloneVolumeslider);
